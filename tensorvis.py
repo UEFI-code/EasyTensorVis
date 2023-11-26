@@ -31,11 +31,13 @@ def vis1D(tensor, drawSize = 1024, drawline=False, colorful=False):
                 cv2.line(img, (x_0, y_0), (x_t, y_t), (0, 0, 255), 1)
         i += (math.pi * 2) / example.shape[0]
         index += 1
-    cv2.imshow('img', img)
+    return img
 
 if __name__ == '__main__':
     import torch
     example = torch.rand(512)
-    vis1D(example, drawline=True, colorful=True)
+    visimg = vis1D(example, drawline=True, colorful=True)
+    cv2.imshow('vis', visimg)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+    cv2.imwrite('vis1D.png', visimg)
