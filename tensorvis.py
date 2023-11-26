@@ -1,7 +1,7 @@
 import math
 import cv2
 import numpy as np
-import random
+import torch
 
 def vis1D(tensor, drawSize = 1024, drawline=False, colorful=False):
     # prepare 1024 x 1024 image
@@ -32,8 +32,10 @@ def vis1D(tensor, drawSize = 1024, drawline=False, colorful=False):
                 cv2.line(img, (x_0, y_0), (x_t, y_t), calcLineColor(tensor[index]), 1)
             else:
                 cv2.line(img, (x_0, y_0), (x_t, y_t), (0, 0, 255), 1)
-        th += (math.pi * 2) / example.shape[0]
+        th += (math.pi * 2) / tensor.shape[0]
         index += 1
+        if index >= tensor.shape[0]:
+            break
     return img
 
 def calcLineColor(value):
@@ -45,7 +47,6 @@ def calcLineColor(value):
     return rgb_color.astype(np.uint8).tolist()
 
 if __name__ == '__main__':
-    import torch
     example = torch.randn(512)
     visimg = vis1D(example, drawline=True, colorful=True)
     cv2.imshow('vis', visimg)
